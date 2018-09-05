@@ -13,24 +13,23 @@ from util import uri_check_job
 def main():
     """ Main program """
     if len(sys.argv) < 2 or sys.argv[1] == "":
-        print("usage: main.py URI")
-        print("       uri-check-worker.py http://www.yahoo.com")
+        print("usage: uri-check-worker.py URI")
         exit(1)
 
     target_uri = sys.argv[1];
 
-    interval = 1  # seconds
+    interval = 5  # seconds
 
     scheduler = sched.scheduler(time.time, time.sleep)
 
     job = uri_check_job
 
     scheduler.enter(interval, 1, job, argument=(target_uri,))
-    print("Scheduling uri-check-worker for {} at {} check per/sec".format(target_uri, interval))
+    print("DEBUG - Checking {} every {} seconds".format(target_uri, interval))
     while True:
         scheduler.run()
         time.sleep(1)
-        scheduler.enter(interval, 1, job, argument=(target_uri,))
+        scheduler.enter(interval, 1, job, argument=(target_uri, ))
 
 
 if __name__ == "__main__":

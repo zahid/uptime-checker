@@ -2,11 +2,12 @@
 # These should be unit-testable....mostly
 
 import time
-from urllib import request,  error
+from urllib import request, error
 
 
 def uri_check_job(uri):
     result = get_uri(uri)
+    result["status"] = verify_status(result)
     handle_result(result)
 
 
@@ -15,21 +16,21 @@ def get_uri(uri):
         start_time = time.time()
         response = request.urlopen(uri)
         duration = time.time() - start_time
-        status = response.getcode()
-        info = str(response.info())
+        status_code = response.getcode()
+        # info = str(response.info())
 
     except error.HTTPError as e:
         print("HTTPError", e.code)
 
         duration = -1
-        status = e.code
+        status_code = e.code
 
     return {
         "uri": uri,
         "duration": duration,
-        "status": status,
-        "timestamp": time.time(),
-        "info": info
+        "status_code": status_code,
+        "ts": time.time(),
+        # "info": info
     }
 
 
@@ -46,7 +47,4 @@ def verify_status(result):
 # Prints the result
 def handle_result(result):
     print(result)
-    print("{},{},{},{}".format(result["timestamp"], result["uri"], result["status"], verify_status(result)))
     return None
-
-
