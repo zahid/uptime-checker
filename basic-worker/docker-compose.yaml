@@ -1,0 +1,10 @@
+version: "3.4"
+
+services:
+
+    uri-check-worker:
+        image: python:3.6-alpine
+        container_name: uri-check-worker
+        volumes:
+            - ./src:/src
+        command: python /src/uri-check-worker.py http://yahoo.com
