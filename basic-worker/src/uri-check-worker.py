@@ -4,6 +4,7 @@
 import sched
 import sys
 import time
+import os
 
 from util import uri_check_job
 
@@ -12,13 +13,16 @@ from util import uri_check_job
 # Schedules the URI check job
 def main():
     """ Main program """
-    if len(sys.argv) < 2 or sys.argv[1] == "":
-        print("usage: uri-check-worker.py URI")
+
+    # Use argv $1 or URL env var
+    target_uri = os.environ['URL']
+
+    if target_uri is None:
+        print("Missing URL environment variable")
         exit(1)
 
-    target_uri = sys.argv[1];
-
-    interval = 5  # seconds
+    # seconds
+    interval = int(os.environ.get('INTERVAL', 5))
 
     scheduler = sched.scheduler(time.time, time.sleep)
 

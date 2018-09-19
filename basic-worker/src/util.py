@@ -25,6 +25,10 @@ def get_uri(uri):
         duration = -1
         status_code = e.code
 
+    except error.URLError as e:
+        print("URLError", e.reason)
+        exit(1)
+
     return {
         "uri": uri,
         "duration": duration,
