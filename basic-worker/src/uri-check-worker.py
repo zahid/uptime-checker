@@ -17,13 +17,16 @@ def main():
     # Use argv $1 or URL env var
     # the URL ENV var will override $1
 
-    target_uri = os.environ['URL']
+    target_uri = None
 
     if len(sys.argv) > 1:
         target_uri = sys.argv[1]
 
+    if os.environ.get('URL', None) is not None:
+        target_uri = os.environ.get('URL')
+
     if target_uri is None or target_uri is "":
-        print("Missing URL environment variable")
+        print("Missing URL environment variable or $1 argument")
         exit(1)
 
     # seconds
