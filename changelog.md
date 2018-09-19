@@ -7,7 +7,7 @@ Output: a timestamp, the url, the http status code, and the duration of the requ
 
     usage: `python3 basic-worker/src/uri-check-worker.py http://example.com`
 
-### v2
+### v2 - usage arguments
 
 Update to accept the URL as an environment variable. This will help pave the way for running this in containers.
 
@@ -20,6 +20,26 @@ Update to accept the URL as an environment variable. This will help pave the way
 
     # or specify an interval
     INTERVAL=1 URL=https://wikipedia.org python3 basic-worker/src/uri-check-worker.py
+
+
+### v3 - containers
+
+Can run with docker, or docker-compose now:
+
+    ```
+    # using docker-compose up
+    # in uptime-checker/basic-worker
+    docker-compose up --build
+
+    # or using docker-compose run
+    docker-compose build uri-check-worker
+    docker-compose run --rm uri-check-worker
+
+    # or using docker
+    docker build -t uri-check-worker src/
+    docker run --rm -e URL=http://wikipedia.org -e INTERVAL=1 uri-check-worker
+    ```
+
 
 ### Backlog
 
